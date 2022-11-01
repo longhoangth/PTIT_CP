@@ -1,6 +1,7 @@
 #include<iostream>
 #include<fstream>
 #include<vector>
+#include<regex>
 
 using namespace std;
 
@@ -22,8 +23,9 @@ void loadData();
 bool valid_id(string data);
 bool valid_email(string data);
 bool valid_phone(string data);
-
+int isSubstring(string s1, string s2);
 void findingOperation(int finding, string data);
+void warning();
 
 int main()
 {
@@ -80,6 +82,7 @@ int main()
 
         if(option == 2)
         {
+            warning();
         tryFindAgain:
             int finding;
             findingOptionDisplay();
@@ -97,14 +100,18 @@ int main()
                 break;
 
             case 3:
-                cout << "Enter A Valid Email Address: ";
+                cout << "Enter A Email Address: ";
                 cin >> data;
+                if(!valid_email(data)) {goto notMatchingCriteria;}
                 break;
 
             case 4:
-                cout << "Enter A Valid Phone Number: ";
+                cout << "Enter A Phone Number: ";
                 cin >> data;
+                if(!valid_phone(data)) {goto notMatchingCriteria;}
                 break;
+            
+            notMatchingCriteria:
             default:
                 int again;
                 cout << "Do you want to continue finding?\n"
@@ -122,7 +129,7 @@ int main()
 
         if(option == 3)
         {
-
+            
         }
 
         if(option == 4)
@@ -134,6 +141,14 @@ int main()
         {
 
         }
+    }
+}
+
+void warning()
+{
+    if(manage.size() == 0)
+    {
+        cout << "PLEASE LOAD DATA FROM FILE OR ADD NEW CUSTOMER FIRST!\n";
     }
 }
 
@@ -173,6 +188,115 @@ void findingOptionDisplay()
          << "4. By Phone Number.\nEnter your choice: ";
 }
 
-bool valid_id(string data);
-bool valid_email(string data);
-bool valid_phone(string data);
+bool valid_id(string data)
+{
+    if(manage.size() == 0)  return false;
+    for(int i=0; i < manage.size(); i++)
+    {
+        if(data == manage[i].id)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool valid_email(string data)
+{
+     // Regular expression definition
+    const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
+  
+    // Match the string pattern
+    // with regular expression
+    return regex_match(data, pattern);
+}
+
+bool valid_phone(string data)
+{
+    if(data[0] != 0)    return false;
+    if(data.size() != 10)   return false;
+    return true;
+}
+
+void findingOperation(int finding, string data)
+{
+    bool flag = false;
+    vector<customerManagement> resultFinding;
+    for(int i=0; i < manage.size(); i++)
+    {
+        switch (finding)
+        {
+        case 1:
+            if(data == manage[i].id)
+            {
+                resultFinding.push_back(manage[i]);
+                flag = true;
+            }
+            break;
+        
+        case 2:
+            if(isSubstring(data, manage[i].name) != -1)
+            {
+                resultFinding.push_back(manage[i]);
+            }
+            break;
+        
+        case 3:
+            if(data == manage[i].email)
+            {
+                resultFinding.push_back(manage[i]);
+                flag = true;
+            }
+            break;
+        
+        case 4:
+            if(data == manage[i].phone)
+            {
+                resultFinding.push_back(manage[i]);
+                flag = true;
+            }
+            break;
+        }
+        if(flag)
+        {
+            break;
+        }
+    }
+    if(resultFinding.size() == 0)
+    {
+        cout << "There are any customers who have " << data << endl;
+        return;
+    }
+    for(int i=0; i < resultFinding.size(); i++)
+    {
+        cout << "Result " << i + 1 << endl;
+        cout << "ID: " << resultFinding[i].id << endl;
+        cout << "NAME: " << resultFinding[i].name << endl;
+        cout << "Email Address: " << resultFinding[i].email << endl;
+        cout << "Phone Number: " << resultFinding[i].phone << endl;
+        cout << "Bill: " << resultFinding[i].bill << " VND" << endl;
+    }
+}
+
+int isSubstring(string s1, string s2)
+{
+    int M = s1.length();
+    int N = s2.length();
+ 
+    /* A loop to slide pat[] one by one */
+    for (int i = 0; i <= N - M; i++) {
+        int j;
+ 
+        /* For current index i, check for
+ pattern match */
+        for (j = 0; j < M; j++)
+            if (s2[i + j] != s1[j])
+                break;
+ 
+        if (j == M)
+            return i;
+    }
+ 
+    return -1;
+}
+ 
