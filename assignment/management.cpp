@@ -12,6 +12,11 @@ void warning()
 void loadData()
 {
     Customer_File.open("data.txt", ios::in);
+    if(Customer_File.fail())
+    {
+        cout << "Fail to open this file.\n"
+             << "Please check your file and try again later.\n";
+    }
     while(!Customer_File.eof())
     {
         customerManagement tmp;
@@ -23,6 +28,7 @@ void loadData()
         manage.push_back(tmp);
         numOfCus++;
     }
+    cout << "Loading data successfully.\n";
     Customer_File.close();
 }
 
