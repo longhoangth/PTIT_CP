@@ -32,5 +32,7 @@ int isSubstring(string s1, string s2);
 void findingOperation(int finding, string data);
 void warning();
 void updateEverything();
+void addNewCustomer();
+void findACustomer();
 
 #endif
