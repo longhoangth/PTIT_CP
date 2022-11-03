@@ -4,6 +4,7 @@ vector<customerManagement> manage;
 fstream Customer_File;
 int numOfCus;
 int option{0};
+bool warning_flag{false};
 
 int main()
 {
@@ -26,12 +27,13 @@ int main()
         //Find A Customer
         if(option == 3)
         {
-           findACustomer();
+           findCustomer();
         }
 
+        //Modify A Customer
         if(option == 4)
         {
-            
+            findCustomer();
         }
 
         // Update Every Change

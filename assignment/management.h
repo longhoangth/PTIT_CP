@@ -20,6 +20,7 @@ extern vector<customerManagement> manage;
 extern fstream Customer_File;
 extern int numOfCus;
 extern int option;
+extern bool warning_flag;
 
 void optionDisplay();
 void findingOptionDisplay();
@@ -29,10 +30,11 @@ bool valid_id(string data);
 bool valid_email(string data);
 bool valid_phone(string data);
 int isSubstring(string s1, string s2);
-void findingOperation(int finding, string data);
+
 void warning();
 void updateEverything();
 void addNewCustomer();
-void findACustomer();
+void findCustomer();
+void findCustomer_Handler(int finding, string id, string data);
 
 #endif

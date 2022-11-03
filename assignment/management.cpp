@@ -4,6 +4,7 @@ void warning()
 {
     if(manage.size() == 0)
     {
+        warning_flag = true;
         cout << "There are not any customers in database.\n";
         cout << "PLEASE LOAD DATA FROM FILE OR ADD NEW CUSTOMER FIRST!\n";
     }
@@ -45,10 +46,21 @@ void optionDisplay()
 
 void findingOptionDisplay()
 {
-    cout << "1. By ID.\n"
-         << "2. By Name.\n"
-         << "3. By Email.\n"
-         << "4. By Phone Number.\nEnter your choice: ";
+    warning();
+    if(option == 3)
+    {
+        cout << "1. By ID.\n"
+             << "2. By Name.\n"
+             << "3. By Email.\n"
+             << "4. By Phone Number.\nEnter your choice: ";
+    }
+    else if (option ==4 )
+    {
+        cout << "1. Name.\n"
+             << "2. Email.\n"
+             << "3. Phone Number.\n"
+             << "4. Bill.\nEnter your choice: ";
+    }
 }
 
 bool valid_id(string data)
@@ -80,66 +92,6 @@ bool valid_phone(string data)
         return false;
 
     return true;
-}
-
-void findingOperation(int finding, string data)
-{
-    bool flag = false;
-    vector<customerManagement> resultFinding;
-    for(int i=0; i < manage.size(); i++)
-    {
-        switch (finding)
-        {
-        case 1:
-            if(data == manage[i].id)
-            {
-                resultFinding.push_back(manage[i]);
-                flag = true;
-            }
-            break;
-        
-        case 2:
-            if(isSubstring(data, manage[i].name) != -1)
-            {
-                resultFinding.push_back(manage[i]);
-            }
-            break;
-        
-        case 3:
-            if(data == manage[i].email)
-            {
-                resultFinding.push_back(manage[i]);
-                flag = true;
-            }
-            break;
-        
-        case 4:
-            if(data == manage[i].phone)
-            {
-                resultFinding.push_back(manage[i]);
-                flag = true;
-            }
-            break;
-        }
-        if(flag)
-        {
-            break;
-        }
-    }
-    if(resultFinding.size() == 0)
-    {
-        cout << "There are any customers who have " << data << endl;
-        return;
-    }
-    for(int i=0; i < resultFinding.size(); i++)
-    {
-        cout << "Result " << i + 1 << endl;
-        cout << "ID: " << resultFinding[i].id << endl;
-        cout << "NAME: " << resultFinding[i].name << endl;
-        cout << "Email Address: " << resultFinding[i].email << endl;
-        cout << "Phone Number: " << resultFinding[i].phone << endl;
-        cout << "Bill: " << resultFinding[i].bill << " VND" << endl;
-    }
 }
 
 int isSubstring(string s1, string s2)
@@ -223,14 +175,16 @@ addNewCusPhone:
     numOfCus+=1;
 }
 
-void findACustomer()
+void findCustomer()
 {
     string data;
     warning();
-tryFindAgain:
+    if(warning_flag)    {return;}
+
     int finding;
     findingOptionDisplay();
     cin >> finding;
+tryFindAgain:
     switch (finding)
     {
     case 1:
@@ -258,15 +212,151 @@ tryFindAgain:
 notMatchingCriteria:
     default:
         int again;
-        cout << "Do you want to continue finding?\n"
+        cout << "Do you want to continue?\n"
              << "1. YES\n"
              << "2. NO\nEnter your choice: ";
         cin >> again;
         if(again == 1)
         {
             goto tryFindAgain;
-        }
-        break;
+        } else break;
     }
-    findingOperation(finding, data);
+    findCustomer_Handler(finding, data);
+}
+
+void findCustomer_Handler(int finding, string data)
+{
+    bool flag = false;
+    vector<customerManagement> resultFinding;
+    for(int i=0; i < manage.size(); i++)
+    {
+        switch (finding)
+        {
+        case 1:
+            if(data == manage[i].id)
+            {
+                resultFinding.push_back(manage[i]);
+                flag = true;
+            }
+            break;
+        
+        case 2:
+            if(isSubstring(data, manage[i].name) != -1)
+            {
+                resultFinding.push_back(manage[i]);
+            }
+            break;
+        
+        case 3:
+            if(data == manage[i].email)
+            {
+                resultFinding.push_back(manage[i]);
+                flag = true;
+            }
+            break;
+        
+        case 4:
+            if(data == manage[i].phone)
+            {
+                resultFinding.push_back(manage[i]);
+                flag = true;
+            }
+            break;
+        }
+        if(flag)
+        {
+            break;
+        }
+    }
+    cout << "Finding successfully!\n";
+    if(resultFinding.size() == 0)
+    {
+        cout << "There are any customers who have " << data << endl;
+        return;
+    }
+    for(int i=0; i < resultFinding.size(); i++)
+    {
+        cout << "Result " << i + 1 << endl;
+        cout << "ID: " << resultFinding[i].id << endl;
+        cout << "NAME: " << resultFinding[i].name << endl;
+        cout << "Email Address: " << resultFinding[i].email << endl;
+        cout << "Phone Number: " << resultFinding[i].phone << endl;
+        cout << "Bill: " << resultFinding[i].bill << " VND" << endl;
+    }
+
+}
+
+void modifyCustomer()
+{
+    int finding;
+    string id, data;
+    cout << "Please enter ID: ";
+    cin >> id;
+    findingOptionDisplay();
+    cin >> finding;
+tryModifyAgain:
+    switch (finding)
+    {
+    case 1:
+        cout << "Enter Name: ";
+        cin >> data;
+        break;
+
+    case 2:
+        cout << "Enter A Email Address: ";
+        cin >> data;
+        if(!valid_email(data)) {goto notMatchingCriteria;}
+        break;
+
+    case 3:
+        cout << "Enter A Phone Number: ";
+        cin >> data;
+        if(!valid_phone(data)) {goto notMatchingCriteria;}
+        break;
+
+    case 4:
+        cout << "Enter Bill Value: ";
+        cin >> data;
+        break;
+
+notMatchingCriteria:
+    default:
+        int again;
+        cout << "Do you want to continue?\n"
+             << "1. YES\n"
+             << "2. NO\nEnter your choice: ";
+        cin >> again;
+        if(again == 1)
+        {
+            goto tryModifyAgain;
+        } else break;
+    }
+
+    modifyCustomer_Handler(finding, id, data);
+}
+
+void modifyCustomer_Handler(int finding, string id_find, string data)
+{
+    for(int i=0; i < manage.size(); i++)
+    {
+        if(id_find == manage[i].id)
+        {
+            switch (finding)
+            {
+            case 1:
+                manage[i].name = data;
+                break;
+            case 2:
+                manage[i].email = data;
+                break;
+            case 3:
+                manage[i].phone = data;
+                break;
+            case 4:
+                manage[i].bill = data;
+                break;
+            }
+        }
+    }
+    cout << "Modifying successfully.\n";
 }
