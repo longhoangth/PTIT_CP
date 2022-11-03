@@ -1,3 +1,4 @@
+// count ways to place Queen in chessboard
 /*
     Author: Long Hoang Thanh
     Date: 24/10/2022
@@ -6,9 +7,12 @@
 #define MAX 100
 #define TRUE 1
 #define FALSE 0
+
 using namespace std;
+
 int X[MAX], toFront[MAX], toBack[MAX], notVisited[MAX];
 int n, dem{0};
+
 void Init (void ) {
     cin>>n;
     for (int i=1; i<=n; i++) notVisited[i]=TRUE;

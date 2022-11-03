@@ -1,4 +1,4 @@
-/ express number N equal to sum of fibonacci numbers without repetition
+// express number N equal to sum of fibonacci numbers without repetition
 /*
     Author: Long Hoang
     Date: 13/10/2022
@@ -9,8 +9,7 @@
 
 using namespace std;
 
-long long fib[110], dp1[110];
-long long dp2[110], v[110];
+long long fib[110], dp1[110], dp2[110], v[110];
 
 void fibonacci() {
     // two first fibonacci number
@@ -25,8 +24,7 @@ void fibonacci() {
 int find(int num) {
     int cnt = 0;
  
-    // Generate the Canonical form
-    // of given number
+    // Generate the Canonical form of given number
     for (int i = 87; i > 0; i--) {
         if (num >= fib[i]) {
             v[cnt++] = i;
@@ -48,10 +46,7 @@ int find(int num) {
         dp1[i] = dp1[i - 1] + dp2[i - 1];
  
         // Calculate dp2[]
-        dp2[i] = ((v[i] - v[i - 1]) / 2)
-                     * dp2[i - 1]
-                 + ((v[i] - v[i - 1] - 1) / 2)
-                       * dp1[i - 1];
+        dp2[i] = ((v[i] - v[i - 1]) / 2) * dp2[i - 1] + ((v[i] - v[i - 1] - 1) / 2) * dp1[i - 1];
     }
  
     // Return final ans
