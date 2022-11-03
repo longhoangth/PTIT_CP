@@ -125,8 +125,11 @@ void updateEverything()
         Customer_File << manage[i].name << " ";
         Customer_File << manage[i].email << " ";
         Customer_File << manage[i].phone << " ";
-        Customer_File << manage[i].bill << endl;
+        Customer_File << manage[i].bill;
+        Customer_File << '\n';
     }
+    cout << "Updating successfully.\n";
+    Customer_File.close();
 }
 
 void addNewCustomer()
@@ -356,6 +359,7 @@ void modifyCustomer_Handler(int finding, string id_find, string data)
                 manage[i].bill = data;
                 break;
             }
+            break;
         }
     }
     cout << "Modifying successfully.\n";

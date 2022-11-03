@@ -34,7 +34,11 @@ int isSubstring(string s1, string s2);
 void warning();
 void updateEverything();
 void addNewCustomer();
+
 void findCustomer();
-void findCustomer_Handler(int finding, string id, string data);
+void findCustomer_Handler(int finding, string data);
+
+void modifyCustomer();
+void modifyCustomer_Handler(int finding, string id_find, string data);
 
 #endif
