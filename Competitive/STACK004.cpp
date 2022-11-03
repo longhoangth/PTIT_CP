@@ -1,6 +1,6 @@
 //infix to postfix conversion
 /*
-    Author: Long Hoang Thang 
+    Author: Long Hoang Thanh
     Date: 1/11/2022
 */
 
