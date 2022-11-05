@@ -43,6 +43,8 @@ void printLargest(vector<string> arr)
 
 	for (int i = 0; i < arr.size(); i++)
 		cout << arr[i];
+
+	cout << endl;
 }
 
 // Driver code
@@ -57,9 +59,9 @@ int main()
         cin >> n;
         for(int i=0; i < n; i++)
         {
-            int tmp;
-            cin >> tmp;
-            arr.push_back(to_string(tmp));
+            string tmp;
+			cin >> tmp;
+            arr.push_back(tmp);
         }
         printLargest(arr);
         arr.clear();

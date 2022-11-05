@@ -13,11 +13,12 @@ long long calcNCK(int n, int k)
 
 	// C(n, k) == C(n, n-k),
 	// choosing the smaller value
-	if (n - k < k)
-		k = n - k;
+	if (n - k < k) 	{k = n - k;}
 
-	if (k != 0) {
-		while (k) {
+	if (k != 0) 
+	{
+		while (k) 
+		{
 			p *= n;
 			r *= k;
 
@@ -39,8 +40,7 @@ long long calcNCK(int n, int k)
 		// (denominator should be 1 ) .
 	}
 
-	else
-		p = 1;
+	else	{p = 1;}
 
 	// if our approach is correct p = ans and r =1
 	return p;
