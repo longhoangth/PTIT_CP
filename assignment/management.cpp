@@ -25,7 +25,7 @@ void loadData()
         Customer_File >> tmp.name;
         Customer_File >> tmp.email;
         Customer_File >> tmp.phone;
-        Customer_File >> tmp.bill;
+        Customer_File >> tmp.balance;
         manage.push_back(tmp);
         numOfCus++;
     }
@@ -59,7 +59,7 @@ void findingOptionDisplay()
         cout << "1. Name.\n"
              << "2. Email.\n"
              << "3. Phone Number.\n"
-             << "4. Bill.\nEnter your choice: ";
+             << "4. Balance.\nEnter your choice: ";
     }
 }
 
@@ -125,7 +125,7 @@ void updateEverything()
         Customer_File << manage[i].name << " ";
         Customer_File << manage[i].email << " ";
         Customer_File << manage[i].phone << " ";
-        Customer_File << manage[i].bill;
+        Customer_File << manage[i].balance;
         Customer_File << '\n';
     }
     cout << "Updating successfully.\n";
@@ -170,9 +170,9 @@ addNewCusPhone:
         goto addNewCusPhone;
     }
 
-    cout << "Enter Bill (NUMBER ONLY): ";
+    cout << "Enter Balance (NUMBER ONLY): ";
     cin >> data;
-    newCus.bill = data;
+    newCus.balance = data;
 
     manage.push_back(newCus);
     numOfCus+=1;
@@ -284,7 +284,7 @@ void findCustomer_Handler(int finding, string data)
         cout << "NAME: " << resultFinding[i].name << endl;
         cout << "Email Address: " << resultFinding[i].email << endl;
         cout << "Phone Number: " << resultFinding[i].phone << endl;
-        cout << "Bill: " << resultFinding[i].bill << " VND" << endl;
+        cout << "Balance: " << resultFinding[i].balance << " VND" << endl;
     }
 
 }
@@ -356,7 +356,7 @@ void modifyCustomer_Handler(int finding, string id_find, string data)
                 manage[i].phone = data;
                 break;
             case 4:
-                manage[i].bill = data;
+                manage[i].balance = data;
                 break;
             }
             break;

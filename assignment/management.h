@@ -13,7 +13,7 @@ using namespace std;
 class customerManagement
 {
     public:
-        string id, name, email, phone, bill;
+        string id, name, email, phone, balance;
 };
 
 extern vector<customerManagement> manage;
