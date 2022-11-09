@@ -7,6 +7,8 @@
 #include<fstream>
 #include<vector>
 #include<regex>
+#include<sstream>
+#include<string>
 
 using namespace std;
 
@@ -24,6 +26,7 @@ extern bool warning_flag;
 
 void optionDisplay();
 void findingOptionDisplay();
+vector<string> tokenize(string s, string del);
 void loadData();
 
 bool valid_id(string data);

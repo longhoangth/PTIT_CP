@@ -5,9 +5,21 @@ void warning()
     if(manage.size() == 0)
     {
         warning_flag = true;
-        cout << "There are not any customers in database.\n";
+        cout << "\nThere are not any customers in database.\n";
         cout << "PLEASE LOAD DATA FROM FILE OR ADD NEW CUSTOMER FIRST!\n";
     }
+}
+
+vector<string> tokenize(string s, string del)
+{
+    vector<string> wordInLine;
+	int start, end = -1*del.size();
+	do {
+		start = end + del.size();
+		end = s.find(del, start);
+		wordInLine.push_back(s.substr(start, end - start));
+	} while (end != -1);
+    return wordInLine;
 }
 
 void loadData()
@@ -15,27 +27,40 @@ void loadData()
     Customer_File.open("data.txt", ios::in);
     if(Customer_File.fail())
     {
-        cout << "Fail to open this file.\n"
+        cout << "\nFail to open this file.\n"
              << "Please check your file and try again later.\n";
     }
-    while(!Customer_File.eof())
+    /*
+        Read file line by line and split each word using character '$'
+    */
+    if(Customer_File.is_open())
     {
-        customerManagement tmp;
-        Customer_File >> tmp.id;
-        Customer_File >> tmp.name;
-        Customer_File >> tmp.email;
-        Customer_File >> tmp.phone;
-        Customer_File >> tmp.balance;
-        manage.push_back(tmp);
-        numOfCus++;
+        string line, word;
+        while(getline(Customer_File, line))
+        {
+            vector<string> wordInLine;
+            wordInLine = tokenize(line, "$");
+
+            customerManagement tmp;
+
+            tmp.id = wordInLine[0];
+            tmp.name = wordInLine[1];
+            tmp.email = wordInLine[2];
+            tmp.phone = wordInLine[3];
+            tmp.balance = wordInLine[4];
+            
+            manage.push_back(tmp);
+
+            wordInLine.clear();
+        }
     }
-    cout << "Loading data successfully.\n";
+    cout << "\nLoading data successfully.\n";
     Customer_File.close();
 }
 
 void optionDisplay()
 {
-    cout << "Available operations: \n"
+    cout << "\nAvailable operations: \n"
          << "1. Load Data.\n"
          << "2. Add New Customer.\n"
          << "3. Find Customer.\n"
@@ -49,14 +74,14 @@ void findingOptionDisplay()
     warning();
     if(option == 3)
     {
-        cout << "1. By ID.\n"
+        cout << "\n1. By ID.\n"
              << "2. By Name.\n"
              << "3. By Email.\n"
              << "4. By Phone Number.\nEnter your choice: ";
     }
     else if (option ==4 )
     {
-        cout << "1. Name.\n"
+        cout << "\n1. Name.\n"
              << "2. Email.\n"
              << "3. Phone Number.\n"
              << "4. Balance.\nEnter your choice: ";
@@ -121,14 +146,14 @@ void updateEverything()
     Customer_File.open("data.txt", ios::out);
     for(int i=0; i < manage.size(); i++)
     {
-        Customer_File << manage[i].id << " ";
-        Customer_File << manage[i].name << " ";
-        Customer_File << manage[i].email << " ";
-        Customer_File << manage[i].phone << " ";
+        Customer_File << manage[i].id << "$";
+        Customer_File << manage[i].name << "$";
+        Customer_File << manage[i].email << "$";
+        Customer_File << manage[i].phone << "$";
         Customer_File << manage[i].balance;
         Customer_File << '\n';
     }
-    cout << "Updating successfully.\n";
+    cout << "\nUpdating successfully.\n";
     Customer_File.close();
 }
 
@@ -215,7 +240,7 @@ tryFindAgain:
 notMatchingCriteria:
     default:
         int again;
-        cout << "Do you want to continue?\n"
+        cout << "\nDo you want to continue?\n"
              << "1. YES\n"
              << "2. NO\nEnter your choice: ";
         cin >> again;
@@ -271,7 +296,7 @@ void findCustomer_Handler(int finding, string data)
             break;
         }
     }
-    cout << "Finding successfully!\n";
+    cout << "\nFinding successfully!\n";
     if(resultFinding.size() == 0)
     {
         cout << "There are any customers who have " << data << endl;
@@ -293,7 +318,7 @@ void modifyCustomer()
 {
     int finding;
     string id, data;
-    cout << "Please enter ID: ";
+    cout << "\nPlease enter ID: ";
     cin >> id;
     findingOptionDisplay();
     cin >> finding;
@@ -362,5 +387,5 @@ void modifyCustomer_Handler(int finding, string id_find, string data)
             break;
         }
     }
-    cout << "Modifying successfully.\n";
+    cout << "\nModifying successfully.\n";
 }
