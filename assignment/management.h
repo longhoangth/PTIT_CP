@@ -24,24 +24,28 @@ extern int numOfCus;
 extern int option;
 extern bool warning_flag;
 
-void optionDisplay();
-void findingOptionDisplay();
-vector<string> tokenize(string s, string del);
-void loadData();
+void OptionDisplay();
+void FindingOptionDisplay();
+vector<string> Tokenize(string s, string del);
+void LoadData();
 
-bool valid_id(string data);
-bool valid_email(string data);
-bool valid_phone(string data);
-int isSubstring(string s1, string s2);
+bool Valid_id(string data);
+bool Valid_email(string data);
+bool Valid_phone(string data);
+int IsSubstring(string s1, string s2);
 
-void warning();
-void updateEverything();
-void addNewCustomer();
+void Warning();
+void UpdateEverything();
+void AddNewCustomer();
 
-void findCustomer();
-void findCustomer_Handler(int finding, string data);
+void FindCustomer();
+vector<customerManagement> FindCustomer_Handler(int finding, string data);
 
-void modifyCustomer();
-void modifyCustomer_Handler(int finding, string id_find, string data);
+void ModifyCustomer();
+void ModifyCustomer_Handler(int finding, string id_find, string data);
+
+void DeleteCustomer();
+void DeleteWarning();
+void DeleteCustomer_Handler(vector<customerManagement> resultFinding);
 
 #endif

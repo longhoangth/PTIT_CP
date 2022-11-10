@@ -1,6 +1,6 @@
 #include "management.h"
 
-void warning()
+void Warning()
 {
     if(manage.size() == 0)
     {
@@ -10,7 +10,7 @@ void warning()
     }
 }
 
-vector<string> tokenize(string s, string del)
+vector<string> Tokenize(string s, string del)
 {
     vector<string> wordInLine;
 	int start, end = -1*del.size();
@@ -22,7 +22,7 @@ vector<string> tokenize(string s, string del)
     return wordInLine;
 }
 
-void loadData()
+void LoadData()
 {
     Customer_File.open("data.txt", ios::in);
     if(Customer_File.fail())
@@ -39,7 +39,7 @@ void loadData()
         while(getline(Customer_File, line))
         {
             vector<string> wordInLine;
-            wordInLine = tokenize(line, "$");
+            wordInLine = Tokenize(line, "$");
 
             customerManagement tmp;
 
@@ -58,28 +58,29 @@ void loadData()
     Customer_File.close();
 }
 
-void optionDisplay()
+void OptionDisplay()
 {
     cout << "\nAvailable operations: \n"
          << "1. Load Data.\n"
          << "2. Add New Customer.\n"
          << "3. Find Customer.\n"
          << "4. Modify A Customer.\n"
-         << "5. Update Everything.\n"
-         << "6. Exit\nEnter option: ";
+         << "5. Delete A Customer.\n"
+         << "6. Update Everything.\n"
+         << "7. Exit\nEnter option: ";
 }
 
-void findingOptionDisplay()
+void FindingOptionDisplay()
 {
-    warning();
-    if(option == 3)
+    Warning();
+    if(option == 3 || option == 5 )
     {
         cout << "\n1. By ID.\n"
              << "2. By Name.\n"
              << "3. By Email.\n"
              << "4. By Phone Number.\nEnter your choice: ";
     }
-    else if (option ==4 )
+    else if (option == 4 )
     {
         cout << "\n1. Name.\n"
              << "2. Email.\n"
@@ -88,7 +89,7 @@ void findingOptionDisplay()
     }
 }
 
-bool valid_id(string data)
+bool Valid_id(string data)
 {
     if(manage.size() == 0)  return false;
     for(int i=0; i < manage.size(); i++)
@@ -101,7 +102,7 @@ bool valid_id(string data)
     return true;
 }
 
-bool valid_email(string data)
+bool Valid_email(string data)
 {
      // Regular expression definition
     const regex pattern("(\\w+)(\\.|_)?(\\w*)@(\\w+)(\\.(\\w+))+");
@@ -111,7 +112,7 @@ bool valid_email(string data)
     return regex_match(data, pattern);
 }
 
-bool valid_phone(string data)
+bool Valid_phone(string data)
 {
     if(data[0] != '0' || data.size() != 10)    
         return false;
@@ -119,7 +120,7 @@ bool valid_phone(string data)
     return true;
 }
 
-int isSubstring(string s1, string s2)
+int IsSubstring(string s1, string s2)
 {
     int M = s1.length();
     int N = s2.length();
@@ -141,7 +142,7 @@ int isSubstring(string s1, string s2)
     return -1;
 }
 
-void updateEverything()
+void UpdateEverything()
 {
     Customer_File.open("data.txt", ios::out);
     for(int i=0; i < manage.size(); i++)
@@ -157,14 +158,14 @@ void updateEverything()
     Customer_File.close();
 }
 
-void addNewCustomer()
+void AddNewCustomer()
 {
     string data;
 addNewCusID:
     customerManagement newCus;
     cout << "Enter ID: ";
     cin >> data;
-    if(valid_id(data)) {newCus.id = data;}
+    if(Valid_id(data)) {newCus.id = data;}
     else 
     {
         cout << "INVALID ID!\n";
@@ -178,7 +179,7 @@ addNewCusID:
 addNewCusEmail:
     cout << "Enter Email Address: ";
     cin >> data;
-    if(valid_email(data)) {newCus.email = data;}
+    if(Valid_email(data)) {newCus.email = data;}
     else
     {
         cout << "INVALID EMAIL ADDRESS!\n";
@@ -188,7 +189,7 @@ addNewCusEmail:
 addNewCusPhone:
     cout << "Enter Phone Number: ";
     cin >> data;
-    if(valid_phone(data)) {newCus.phone = data;}
+    if(Valid_phone(data)) {newCus.phone = data;}
     else
     {
         cout << "INVALID PHONE NUMBER!\n";
@@ -203,14 +204,14 @@ addNewCusPhone:
     numOfCus+=1;
 }
 
-void findCustomer()
+void FindCustomer()
 {
     string data;
-    warning();
+    Warning();
     if(warning_flag)    {return;}
 
     int finding;
-    findingOptionDisplay();
+    FindingOptionDisplay();
     cin >> finding;
 tryFindAgain:
     switch (finding)
@@ -228,13 +229,13 @@ tryFindAgain:
     case 3:
         cout << "Enter A Email Address: ";
         cin >> data;
-        if(!valid_email(data)) {goto notMatchingCriteria;}
+        if(!Valid_email(data)) {goto notMatchingCriteria;}
         break;
 
     case 4:
         cout << "Enter A Phone Number: ";
         cin >> data;
-        if(!valid_phone(data)) {goto notMatchingCriteria;}
+        if(!Valid_phone(data)) {goto notMatchingCriteria;}
         break;
             
 notMatchingCriteria:
@@ -249,10 +250,29 @@ notMatchingCriteria:
             goto tryFindAgain;
         } else break;
     }
-    findCustomer_Handler(finding, data);
+    vector<customerManagement> resultFinding = FindCustomer_Handler(finding, data);
+    if(resultFinding.size() == 0)
+    {
+        cout << "There are any customers who have " << data << endl;
+        return;
+    }
+    for(int i=0; i < resultFinding.size(); i++)
+    {
+        cout << "Result " << i + 1 << endl;
+        cout << "ID: " << resultFinding[i].id << endl;
+        cout << "NAME: " << resultFinding[i].name << endl;
+        cout << "Email Address: " << resultFinding[i].email << endl;
+        cout << "Phone Number: " << resultFinding[i].phone << endl;
+        cout << "Balance: " << resultFinding[i].balance << " VND" << endl;
+    }
+
+    if(option == 5 && resultFinding.size() != 0)
+    {
+        DeleteCustomer_Handler(resultFinding);
+    }
 }
 
-void findCustomer_Handler(int finding, string data)
+vector<customerManagement> FindCustomer_Handler(int finding, string data)
 {
     bool flag = false;
     vector<customerManagement> resultFinding;
@@ -269,7 +289,7 @@ void findCustomer_Handler(int finding, string data)
             break;
         
         case 2:
-            if(isSubstring(data, manage[i].name) != -1)
+            if(IsSubstring(data, manage[i].name) != -1)
             {
                 resultFinding.push_back(manage[i]);
             }
@@ -297,30 +317,16 @@ void findCustomer_Handler(int finding, string data)
         }
     }
     cout << "\nFinding successfully!\n";
-    if(resultFinding.size() == 0)
-    {
-        cout << "There are any customers who have " << data << endl;
-        return;
-    }
-    for(int i=0; i < resultFinding.size(); i++)
-    {
-        cout << "Result " << i + 1 << endl;
-        cout << "ID: " << resultFinding[i].id << endl;
-        cout << "NAME: " << resultFinding[i].name << endl;
-        cout << "Email Address: " << resultFinding[i].email << endl;
-        cout << "Phone Number: " << resultFinding[i].phone << endl;
-        cout << "Balance: " << resultFinding[i].balance << " VND" << endl;
-    }
-
+    return resultFinding;
 }
 
-void modifyCustomer()
+void ModifyCustomer()
 {
     int finding;
     string id, data;
     cout << "\nPlease enter ID: ";
     cin >> id;
-    findingOptionDisplay();
+    FindingOptionDisplay();
     cin >> finding;
 tryModifyAgain:
     switch (finding)
@@ -333,13 +339,13 @@ tryModifyAgain:
     case 2:
         cout << "Enter A Email Address: ";
         cin >> data;
-        if(!valid_email(data)) {goto notMatchingCriteria;}
+        if(!Valid_email(data)) {goto notMatchingCriteria;}
         break;
 
     case 3:
         cout << "Enter A Phone Number: ";
         cin >> data;
-        if(!valid_phone(data)) {goto notMatchingCriteria;}
+        if(!Valid_phone(data)) {goto notMatchingCriteria;}
         break;
 
     case 4:
@@ -360,10 +366,10 @@ notMatchingCriteria:
         } else break;
     }
 
-    modifyCustomer_Handler(finding, id, data);
+    ModifyCustomer_Handler(finding, id, data);
 }
 
-void modifyCustomer_Handler(int finding, string id_find, string data)
+void ModifyCustomer_Handler(int finding, string id_find, string data)
 {
     for(int i=0; i < manage.size(); i++)
     {
@@ -388,4 +394,53 @@ void modifyCustomer_Handler(int finding, string id_find, string data)
         }
     }
     cout << "\nModifying successfully.\n";
+}
+
+void DeleteCustomer()
+{
+    cout << "Delete Customer Option\n";
+    FindCustomer();
+}
+
+void DeleteWarning()
+{
+    cout << "\nAre you sure you want to delete this customer?\n"
+         << "1. YES\n"
+         << "2. NO\n";
+}
+
+void DeleteCustomer_Handler(vector<customerManagement> resultFinding)
+{
+    if(resultFinding.size() == 1)
+    {
+        DeleteWarning();
+        int optionDelete;
+        cin >> optionDelete;
+        if(optionDelete == 1)
+        {
+            for(int i=0; i < manage.size(); i++) 
+            {
+                if(resultFinding[0].id == manage[i].id)
+                {
+                    manage.erase(manage.begin() + i);
+                    cout << "Deleting Customer successfully.\n";
+                    break;
+                } 
+            }
+        } else return;
+    }
+
+    cout << "Which customer do you want to delete?\n"
+         << "Enter the number reference with finding result above:\n";
+    int optionDelete;
+    cin >> optionDelete;
+    for(int i=0; i < manage.size(); i++)
+    {
+        if(resultFinding[optionDelete-1].id == manage[i].id)
+        {
+            manage.erase(manage.begin() + i);
+            cout << "Deleting Customer successfully.\n";
+            break;
+        } 
+    }
 }

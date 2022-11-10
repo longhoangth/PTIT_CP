@@ -8,38 +8,44 @@ bool warning_flag{false};
 
 int main()
 {
-    while(option != 6)
+    while(option != 7)
     {
-        optionDisplay();
+        OptionDisplay();
         cin >> option;
         //Load data from file
         if(option == 1)
         {
-            loadData();
+            LoadData();
         }
         
         //Add new Customer
         if(option == 2)
         {
-            addNewCustomer();
+            AddNewCustomer();
         }
 
         //Find A Customer
         if(option == 3)
         {
-           findCustomer();
+           FindCustomer();
         }
 
         //Modify A Customer
         if(option == 4)
         {
-            findCustomer();
+            FindCustomer();
+        }
+
+        //Delete A Customer
+        if(option == 5)
+        {
+            DeleteCustomer();
         }
 
         // Update Every Change
-        if(option == 5)
+        if(option == 6)
         {
-            updateEverything();
+            UpdateEverything();
         }
     }
 }
