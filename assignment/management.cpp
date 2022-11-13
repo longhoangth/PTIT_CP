@@ -67,7 +67,9 @@ void OptionDisplay()
          << "4. Modify A Customer.\n"
          << "5. Delete A Customer.\n"
          << "6. Update Everything.\n"
-         << "7. Exit\nEnter option: ";
+         << "7. Exit\n"
+         << "Current Number Of Customers: " << numOfCus << '\n'
+         << "Enter option: ";
 }
 
 void FindingOptionDisplay()
@@ -178,7 +180,7 @@ addNewCusID:
 
 addNewCusEmail:
     cout << "Enter Email Address: ";
-    cin >> data;
+    getline(cin, data);
     if(Valid_email(data)) {newCus.email = data;}
     else
     {
