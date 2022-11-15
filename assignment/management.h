@@ -37,6 +37,7 @@ int IsSubstring(string s1, string s2);
 void Warning();
 void UpdateEverything();
 void AddNewCustomer();
+string newCustomerNameInput();
 
 void FindCustomer();
 vector<customerManagement> FindCustomer_Handler(int finding, string data);

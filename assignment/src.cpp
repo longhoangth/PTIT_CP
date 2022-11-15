@@ -48,4 +48,6 @@ int main()
             UpdateEverything();
         }
     }
+    cout << "Log out\n";
+    return 0;
 }

@@ -52,6 +52,8 @@ void LoadData()
             manage.push_back(tmp);
 
             wordInLine.clear();
+
+            numOfCus+=1;
         }
     }
     cout << "\nLoading data successfully.\n";
@@ -93,7 +95,7 @@ void FindingOptionDisplay()
 
 bool Valid_id(string data)
 {
-    if(manage.size() == 0)  return false;
+    if(manage.size() == 0)  return true;
     for(int i=0; i < manage.size(); i++)
     {
         if(data == manage[i].id)
@@ -163,8 +165,9 @@ void UpdateEverything()
 void AddNewCustomer()
 {
     string data;
-addNewCusID:
     customerManagement newCus;
+
+addNewCusID:
     cout << "Enter ID: ";
     cin >> data;
     if(Valid_id(data)) {newCus.id = data;}
@@ -173,14 +176,15 @@ addNewCusID:
         cout << "INVALID ID!\n";
         goto addNewCusID;
     }
-            
-    cout << "Enter Name: ";
-    cin >> data;
+
+    cout << "Enter Name: \n";
+    cin.ignore();
+    getline(cin, data);       
     newCus.name = data;
 
 addNewCusEmail:
     cout << "Enter Email Address: ";
-    getline(cin, data);
+    cin >> data;
     if(Valid_email(data)) {newCus.email = data;}
     else
     {
@@ -224,8 +228,8 @@ tryFindAgain:
         break;
             
     case 2:
-        cout << "Enter Name: ";
-        cin >> data;
+        cout << "Enter Name: \n";
+        getline(cin, data);
         break;
 
     case 3:
@@ -334,8 +338,8 @@ tryModifyAgain:
     switch (finding)
     {
     case 1:
-        cout << "Enter Name: ";
-        cin >> data;
+        cout << "Enter Name: \n";
+        getline(cin, data);
         break;
 
     case 2:
@@ -432,17 +436,20 @@ void DeleteCustomer_Handler(vector<customerManagement> resultFinding)
         } else return;
     }
 
-    cout << "Which customer do you want to delete?\n"
-         << "Enter the number reference with finding result above:\n";
-    int optionDelete;
-    cin >> optionDelete;
-    for(int i=0; i < manage.size(); i++)
+    if(resultFinding.size() != 1) 
     {
-        if(resultFinding[optionDelete-1].id == manage[i].id)
+        cout << "Which customer do you want to delete?\n"
+            << "Enter the number reference with finding result above:\n";
+        int optionDelete;
+        cin >> optionDelete;
+        for(int i=0; i < manage.size(); i++)
         {
-            manage.erase(manage.begin() + i);
-            cout << "Deleting Customer successfully.\n";
-            break;
-        } 
+            if(resultFinding[optionDelete-1].id == manage[i].id)
+            {
+                manage.erase(manage.begin() + i);
+                cout << "Deleting Customer successfully.\n";
+                break;
+            } 
+        }
     }
 }
