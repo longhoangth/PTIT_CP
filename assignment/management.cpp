@@ -229,6 +229,7 @@ tryFindAgain:
             
     case 2:
         cout << "Enter Name: \n";
+        cin.ignore();
         getline(cin, data);
         break;
 
@@ -259,7 +260,22 @@ notMatchingCriteria:
     vector<customerManagement> resultFinding = FindCustomer_Handler(finding, data);
     if(resultFinding.size() == 0)
     {
-        cout << "There are any customers who have " << data << endl;
+        cout << "There are any customers who have ";
+        switch (finding)
+        {
+        case 1:
+            cout << "ID: ";
+            break;
+        case 2: 
+            cout << "name: ";
+            break;
+        case 3: 
+            cout << "email: ";
+            break;
+        case 4:
+            cout << "phone number: ";
+        }
+        cout << data << endl;
         return;
     }
     for(int i=0; i < resultFinding.size(); i++)
@@ -328,10 +344,22 @@ vector<customerManagement> FindCustomer_Handler(int finding, string data)
 
 void ModifyCustomer()
 {
+    if(manage.size() == 0)
+    {
+        Warning();
+        return;
+    }
     int finding;
     string id, data;
+tryEnterIDAgain:
     cout << "\nPlease enter ID: ";
+    cin.ignore();
     cin >> id;
+    if(Valid_id(id))
+    {
+        cout << "Invalid ID.\n";
+        goto tryEnterIDAgain;
+    }
     FindingOptionDisplay();
     cin >> finding;
 tryModifyAgain:
@@ -339,6 +367,7 @@ tryModifyAgain:
     {
     case 1:
         cout << "Enter Name: \n";
+        cin.ignore();
         getline(cin, data);
         break;
 
@@ -355,7 +384,7 @@ tryModifyAgain:
         break;
 
     case 4:
-        cout << "Enter Bill Value: ";
+        cout << "Enter Balance Value: ";
         cin >> data;
         break;
 

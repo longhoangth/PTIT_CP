@@ -33,7 +33,7 @@ int main()
         //Modify A Customer
         if(option == 4)
         {
-            FindCustomer();
+            ModifyCustomer();
         }
 
         //Delete A Customer
