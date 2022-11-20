@@ -1,4 +1,5 @@
-// C++ program for above implementation
+// Count ways that express a number is equal to sum of power of 2
+
 #include <bits/stdc++.h>
 using namespace std;
 int numberOfWays(int n, int k)
@@ -15,8 +16,7 @@ int numberOfWays(int n, int k)
 	// one of the numbers or not
 	if (n >= pow(2, k)) {
 		int curr_val = pow(2, k);
-		return numberOfWays(n - curr_val, k)
-			+ numberOfWays(n, k - 1);
+		return numberOfWays(n - curr_val, k) + numberOfWays(n, k - 1);
 	}
 	// Otherwise
 	else

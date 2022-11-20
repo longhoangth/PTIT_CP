@@ -1,4 +1,4 @@
-// count ways that a number equal to sum of square numbers
+// count ways that a number is equal to sum of square numbers
 /*
     Author: Long Hoang Thanh 
     Date: 1/11/2022

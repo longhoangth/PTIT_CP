@@ -1,4 +1,4 @@
-// count ways that a number equal to sum of k unique numbers
+// count ways that a number is equal to sum of k unique numbers
 /*
     Author: Long Hoang Thanh 
     Date: 3/11/2022
