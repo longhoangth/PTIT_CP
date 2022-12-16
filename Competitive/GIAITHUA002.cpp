@@ -2,7 +2,7 @@
     Author: Long Hoang Thanh
     Date: 20/11/2022
 */
-// find the smallest number whose fraction has the last n 0 number
+// find the smallest number whose fraction has the last n 0 digits
 
 #include <bits/stdc++.h>
 

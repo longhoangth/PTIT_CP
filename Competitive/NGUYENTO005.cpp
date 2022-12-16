@@ -1,22 +1,23 @@
-// the largest sum of prime factor 
-// of number less than or equal to N
+//Sum of largest prime factor of each number less than equal to n
 /*
     Editor: Long Hoang Thanh 
     Date: 6/11/2022
 */
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 // function to find sum of largest prime factor
 // of each number less than equal to n
-int sumOfLargePrimeFactor(int n)
+long long sumOfLargePrimeFactor(int n)
 {
 	// Create an integer array "prime[0..n]" and initialize
 	// all entries of it as 0. A value in prime[i] will
 	// finally be 0 if 'i' is a prime, else it will
 	// contain the largest prime factor of 'i'.
-	int prime[n+1], sum = 0;
+	int prime[n+1];
+	long long sum = 0;
 	memset(prime, 0, sizeof(prime));
 	int max = n / 2;
 
@@ -54,11 +55,12 @@ int sumOfLargePrimeFactor(int n)
 int main()
 {
 	int t;
-    cin >> t;
-    while(t--) {
-        int n;
-        cin >> n;
-        cout << sumOfLargePrimeFactor(n) << endl;
-    }		
-    return 0;
+	cin >> t;
+	while(t--) 
+	{
+		int n;
+		cin >> n;
+		cout << sumOfLargePrimeFactor(n) << endl;
+	}
+	return 0;		
 }
