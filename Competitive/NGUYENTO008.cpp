@@ -1,89 +1,119 @@
 // give p(prime number), n, s
 // find all combination of n prime numbers greater than p
 // and all of them has sum equal to s 
+// if not have any combination -> print -1
 
-#include<bits/stdc++.h>
-
+/*
+	Author: Long Hoang Thanh
+	Date: 22/12/2022
+*/
+#include <iostream>
+#include <vector>
+#include <cmath>
 using namespace std;
 
+// vector to store prime and N primes
+// whose sum equals given S
+vector<int> set;
 vector<int> prime;
-vector<vector<int>> res;
-// Sieve array of prime
-bool isPrime[1000];
 
-int dp [200][20][20];
+bool check_have = false;
+bool check_not_have = false;
 
-void sieve()
+// function to check prime number
+bool isPrime(int x)
 {
-	// Initialise all numbers as prime
-	memset(isPrime, true, sizeof(isPrime));
+	// square root of x
+	int sqroot = sqrt(x);
+	bool flag = true;
 
-	// Sieve of Eratosthenes.
-	for (int i = 2; i * i <= 1000; i++)
+	// since 1 is not prime number
+	if (x == 1)
+		return false;
+
+	// if any factor is found return false
+	for (int i = 2; i <= sqroot; i++)
+		if (x % i == 0)
+			return false;
+
+	// no factor found
+	return true;
+}
+
+// function to display N primes whose sum equals S
+void display()
+{
+	int length = set.size();
+	for (int i = 0; i < length; i++)
+		cout << set[i] << " ";
+	cout << "\n";
+}
+
+// function to evaluate all possible N primes
+// whose sum equals S
+void primeSum(int total, int N, int S, int index)
+{
+
+	// if total equals S And
+	// total is reached using N primes
+	if (total == S && set.size() == N)
 	{
-		if (isPrime[i])
-		{
-			for (int j = i * i; j <= 1000; j += i)
-			{
-				isPrime[j] = false;
-			}
-		}
+		check_have = true;
+		// display the N primes
+		display();
+		return;
 	}
-	// Push all the primes into
-	// prime vector
-	for (int i = 2; i <= 1000; i++)
+
+	// if total is greater than S
+	// or if index has reached last element
+	if (total > S || index == prime.size())
 	{
-		if (isPrime[i])
-		{
+		check_not_have = true;
+		return;
+	}
+
+	// add prime[index] to set vector
+	set.push_back(prime[index]);
+
+	// include the (index)th prime to total
+	primeSum(total+prime[index], N, S, index+1);
+
+	// remove element from set vector
+	set.pop_back();
+
+	// exclude (index)th prime
+	primeSum(total, N, S, index+1);
+}
+
+// function to generate all primes
+void allPrime(int N, int S, int P)
+{
+	// all primes less than S itself
+	for (int i = P+1; i <=S ; i++)
+	{
+		// if i is prime add it to prime vector
+		if (isPrime(i))
 			prime.push_back(i);
-		}
 	}
-}
 
-
-
-void represent(int i, int sum, int j, int p, int n, int s)
-{
-    vector<int> tmp;
-	// If index went out of vector
-	// size or the sum became
-	// larger than s return 0
-	if (i > prime.size() || sum > s)
+	// if primes are less than N
+	if (prime.size() < N)
 	{
+		cout << -1 << endl;
 		return;
 	}
-
-	// If sum becomes equal to s and
-	// j becomes exactly equal to n.
-	// Return 1, else if j is still
-	// not equal to k, return 0
-	if (sum == s) {
-		if (j == n) {
-			return;
-		}
-		return;
-	}
-
-	// If sum != n and still j as exceeded, return 0
-	if (j == s) {return;}
+	primeSum(0, N, S, 0);
 }
+
 int main()
 {
-    sieve();
-    int p, n, s, begin, end;
-
-    cin >> p >> n >> s;
-
-    for(int i=0; i < prime.size(); i++)
-    {
-        if(prime[i] == p)
-        {
-            begin = i+1;
-        }
-        if(prime[i] > s)
-        {
-            end = i-1;
-            break;
-        }
-    }
+	int S, N, P;
+	cin >> P >> N >> S;
+	allPrime(N, S, P);
+	// if not have
+	if(!check_have && check_not_have)
+	{
+		cout << -1 << endl;
+	}
+	return 0;
 }

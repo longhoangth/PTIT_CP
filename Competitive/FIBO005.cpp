@@ -11,7 +11,8 @@ using namespace std;
 
 long long fib[110], dp1[110], dp2[110], v[110];
 
-void fibonacci() {
+void fibonacci() \
+{
     // two first fibonacci number
     fib[1] = 1;
     fib[2] = 2;
@@ -21,7 +22,8 @@ void fibonacci() {
     }
 }
 
-int find(int num) {
+int find(int num) 
+{
     int cnt = 0;
  
     // Generate the Canonical form of given number
@@ -53,12 +55,14 @@ int find(int num) {
     return (dp1[cnt - 1] + dp2[cnt - 1]);
 }
 
-int main() {
+int main() 
+{
     int t;
     cin >> t;
     // generate fibonacci number
     fibonacci();
-    while(t--) {
+    while(t--) 
+    {
         int n;
         cin >> n;
         cout << find(n) << endl;

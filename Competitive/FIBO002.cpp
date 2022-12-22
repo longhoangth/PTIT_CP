@@ -1,3 +1,4 @@
+// sum of even fibonacci numbers is less than or equal to N
 #include<iostream>
 using namespace std;
 void fibonacci(int n, long long &res) {

@@ -1,3 +1,7 @@
+// find a pair of fibonacci number has sum equal to N
+// if there are more than a pair
+// display the first pair
+
 #include <bits/stdc++.h>
 
 using namespace std;

@@ -1,3 +1,6 @@
+// find the number that is not a fibonacci number
+// that number is the smallest and less than N
+
 #include<iostream>
 
 using namespace std;
