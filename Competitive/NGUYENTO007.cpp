@@ -52,7 +52,7 @@ int main()
     int t;
     cin >> t;
     while(t--) {
-        int l,r, ans{0}, ans_primeFactor{INT_MIN};
+        int l,r, ans{0}, ans_primeFactor{0};
         cin >> l >> r;
         for(int i=l; i <= r; i++)
         {
