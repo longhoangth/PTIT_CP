@@ -23,7 +23,7 @@ int CountWays(int i, int j, int sum, int n, int k)
 {
 
 	// If index went out of vector
-	// ize or the sum became
+	// size or the sum became
 	// larger than n return 0
 	if (i > vt.size() || sum > n)
 	{
