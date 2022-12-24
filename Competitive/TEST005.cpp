@@ -82,7 +82,6 @@ string multiply(string num1, string num2)
 	return s;
 }
 
-// Driver code
 int main()
 {
     int t;
